@@ -1,6 +1,5 @@
-const express = require('express');
-const router = express.Router();
-// database access using knex
+const router = require('express').Router();
+
 const db = require('../data/dbConfig.js');
 
 
@@ -36,7 +35,7 @@ router.post('/',  async (req, res) => {
         const  account = await db('accounts').insert(accountData);
         res.status(201).json(account);
     } catch (error){
-        res.status(500).json({message:"Can't post post", error: error});
+        res.status(500).json({message:"Can't create Account", error: error});
     }
 
 });
