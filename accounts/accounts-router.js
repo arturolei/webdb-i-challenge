@@ -18,7 +18,7 @@ router.get('/:id', async (req, res) => {
     try {
         const account = await db('accounts').where({id});
         if (account.length) {
-            res.status(200).json(accounts);
+            res.status(200).json(account);
           } else {
             res.status(404).json({ message: 'Could not find account with given id.' })
           }
@@ -37,16 +37,16 @@ router.post('/', validateAccount, async (req, res) => {
     } catch (error){
         res.status(500).json({message:"Can't create Account", error: error});
     }
-
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', validateAccount, async (req, res) => {
     const {id} = req.params;
     const changes = req.body;
+    console.log(req.body)
     try {
         const count = await db('accounts').where({id}).update(changes);
         if(count){
-            res.status(200).json({message: `${coount} record(s) updated!`});
+            res.status(200).json({message: `${count} record(s) updated!`});
         } else {
             res.status(404).json({message: "Account does not exist"});
         }
