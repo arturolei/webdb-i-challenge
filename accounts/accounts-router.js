@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 
 });
 
-router.post('/',  async (req, res) => {
+router.post('/', validateAccount, async (req, res) => {
     const accountData = req.body;
 
     try {
@@ -69,5 +69,17 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({message: "Nope, no deleting today", error:error});
     }
 });
+
+//MiddleWare for Testing Validity of Accounts Object
+function validateAccount(req, res, next) {
+    if(!req.body){
+        res.status(404).json({message:"Empty object; can't work with nothing"})
+    }
+    else if (!req.body.name || !req.body.budget || typeof req.body.budget !== 'number') {
+        res.status(404).json({message:'Account name or budget description is missing or badly formatted'});
+    } else {
+        next();
+    }
+};
 
 module.exports = router;
