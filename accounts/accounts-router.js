@@ -70,7 +70,10 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-//MiddleWare for Testing Validity of Accounts Object
+/*MiddleWare for Testing Validity of Accounts Object 
+- looks at whether you got a budget and a name
+- Looks at whether the budget is a number
+*/
 function validateAccount(req, res, next) {
     if(!req.body){
         res.status(404).json({message:"Empty object; can't work with nothing"})
